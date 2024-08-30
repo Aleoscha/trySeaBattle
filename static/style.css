@@ -1,0 +1,106 @@
+@font-face {
+   font-family: 'retroboy'; /*a name to be used later*/
+   src: url('/static/fonts/super-legend-boy.otf'); /*URL to font*/
+}
+
+body {
+   /* background-color: #3e94ec; */
+   /* background-image: url('images/vawe.gif'); */
+   background-size:contain;
+   font-family:  "Roboto", helvetica, arial, sans-serif;
+   font-size: 16px;
+   font-weight: 400;
+   text-rendering: optimizeLegibility;
+   
+ }
+
+div.seatable {
+   /* background-color:aqua; */
+   border: 3px;
+   padding: 30px;
+
+}
+
+/* table {
+   border: 2px solid rgb(140 140 140);
+   background-color: aqua;
+} */
+
+table {
+   width: 40%;
+   aspect-ratio: 1/1;
+   font: gold;
+   background-color: black;
+   padding:10px;
+ }
+
+ td {
+   width: 8%;
+   position: relative;
+   border: 3px;
+   
+ }
+ td .empty {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background: rgb(196, 196, 196);
+   /* background-image: url('images/water1.png'); */
+   /* background-size: contain; */
+ }
+
+ td .miss {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background: rgb(255, 177, 177);
+   background-image: url('images/miss.png');
+   background-size: contain;
+ }
+
+ td .ship {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgb(255, 177, 177);
+  background-image: url('images/ship.png');
+  background-size: contain;
+}
+
+ td .ontarget {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background: rgb(255, 177, 177);
+   background-image: url('images/ontarget.png');
+   background-size: contain;
+ }
+
+ td .padd {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background: rgb(255, 255, 255);
+   /* background-image: url('images/water1.png'); */
+   /* background-size: contain; */
+   font:bold;
+ }
+
+
+div .tables1 {
+  float: left;
+  width: 10%;
+  /* margin-right: 20px; */
+  border-block: 4px;
+  border-color: black
+}

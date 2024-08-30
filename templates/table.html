@@ -1,0 +1,51 @@
+<div class="seatable">
+    <h1>режим {{mode}}, игрок {{player}}</h1>
+<table>
+    {% for jnd in range(0, 11) -%}
+        <tr>
+        {% for ind in range(0, 11) -%}
+            
+            {% set cell_status = cell_status(player + mode, ind, jnd) -%}
+            
+            {% if ind == 0 -%}
+            <td><div class="padd">{{jnd}} </div></td>
+            {% elif jnd == 0 -%}
+            <td><div class="padd">{{ind}} </div></td>
+            
+            {% elif cell_status == -1 -%} 
+                {% if mode == 1-%}
+                    {% if is_ship(player, ind, jnd) %}
+                    <td><div class="ship"> </div></td>
+                    {% else %}
+                    <td><div class="empty"> </div></td>
+                    {% endif %}
+                {% else -%}
+                <td hx-get="/board/{{ind}}/{{jnd}}/{{player}}" hx-swap="innerHTML" hx-trigger="click", hx-target="#wartable"> <div class="empty"> </div></td>
+                {% endif -%}
+            {% elif cell_status == 0 -%} 
+            <td><div class="miss"></div></td>
+            {% else -%} 
+            <td><div class="ontarget"> </div></td>
+            {% endif -%}
+        {% endfor -%}
+        </tr>
+    {% endfor -%}
+</table>
+</div>
+
+
+<!-- def get_table():
+    ret = '<table>'
+    for i in range(10):
+        ret += '<tr>'
+        for j in range(10):
+            ret += '<td>'
+
+            if (i+j) % 2 == 0:
+                ret += '⚪'
+            else:
+                ret += '⚫'
+            ret += '</td>'
+        ret += '<tr>'
+    ret += '</table>'
+    return ret -->

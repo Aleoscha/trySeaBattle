@@ -1,0 +1,24 @@
+{% include 'header.html' %}
+
+<h1>World of warship ⚓</h1>
+<h1>{{ message }}</h1>
+
+
+<div id="selftable" class="tables">
+{% with mode = 1, player=player %}
+{% include 'table.html' %}
+{% endwith %}
+</div>
+
+<div id="wartable" class="tables">
+{% with mode = 0, player=player %}
+{% include 'table.html' %}
+{% endwith %}
+</div>
+  
+<div style="clear: both;">
+    <button hx-get="/newgame" hx-swap="innerHTML" hx-trigger="click", hx-target="#wartable"> Начать всё заново </button>
+</div> 
+
+</body>
+</html>
