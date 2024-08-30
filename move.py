@@ -1,5 +1,7 @@
 from db import DB
 
+log = []
+
 class move():
     def __init__(self) -> None:
         self.con = DB()
@@ -25,7 +27,7 @@ class move():
             axes = ship[3]
             ship_len = ship[4]
             i += 1  
-            print(i, ship)
+            # print(i, ship)
             if axes == 0:
                 if x == X and Y in range(y, y + ship_len):
                     return 1
@@ -62,9 +64,25 @@ class move():
     def newgame(self):
         self.con.clear_moves()
         return 0
+    
+    def addShip(self, current_cell, previous_cell):
+        coords = sorted([current_cell, previous_cell])
+
+        axis = 0
+        if coords[0][1] == coords[1][1]:
+            ship_len = coords[1][2] - coords[0][2] + 1
+        else:
+            ship_len = coords[1][1] - coords[0][1] + 1
+            axis = 1
+        self.con.add_ship(0, coords[0][1], coords[0][2], axis, ship_len)
+        
+        print(coords[0], axis, ship_len)
+
+        return 0
+
 m = move()
-ship = m.con.get_ships(1)[0]
-print(m._isShip(1, 6, 4))
+# ship = m.con.get_ships(1)[0]
+# print(m._isShip(1, 6, 4))
 # ship_cells = []
 
 # for i in range(ship[4]):
