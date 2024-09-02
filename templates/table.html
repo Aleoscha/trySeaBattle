@@ -5,7 +5,7 @@
         <tr>
         {% for ind in range(0, 11) -%}
             
-            {% set cell_status = cell_status(player + mode, ind, jnd) -%}
+            {% set cell_status = cell_status((player + mode) % 2, ind, jnd) -%}
             
             {% if ind == 0 -%}
             <td><div class="padd">{{jnd}} </div></td>

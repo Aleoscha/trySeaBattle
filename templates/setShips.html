@@ -1,19 +1,12 @@
 {% include 'header.html' %}
 
-<div style="padding-left: 30px">
 <h1>World of warship ⚓</h1>
 <h1>{{ message }}</h1>
-</div>
 
-<div id="selftable" class="tables">
+
+<div id="setTable" class="tables">
 {% with mode = 1, player=player %}
-{% include 'table.html' %}
-{% endwith %}
-</div>
-
-<div id="wartable" class="tables">
-{% with mode = 0, player=player %}
-{% include 'table.html' %}
+{% include 'setTable.html' %}
 {% endwith %}
 </div>
   

@@ -21,17 +21,14 @@ templates.env.globals["is_ship"] = m._isShip
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "message": "side: Player 1", "player": 0})
 
-@app.get("/player1", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "message": "side: Player 1", "player": 0})
+@app.get("/game/{player}/", response_class=HTMLResponse)
+async def read_root(player: int, request: Request):
+    return templates.TemplateResponse("index.html", {"request": request, "message": "Режим боя", "player": player})
 
-@app.get("/player2", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "message": "side: Player 2", "player": 1})
 
 @app.get("/board/{coord_x}/{coord_y}/{player}", response_class=HTMLResponse)
 async def index(coord_x: int, coord_y: int, player:int, request: Request, hx_request: Annotated[Union[str, None], Header()] = None):
-    print(coord_x, coord_y)
+    # print(coord_x, coord_y)
     m.shot(player, coord_x, coord_y)
     return  templates.TemplateResponse("table.html", {"request": request, "player": player, "mode": 0}) #JSONResponse(content=jsonable_encoder(board))
 
@@ -42,18 +39,17 @@ async def newgame(request: Request, hx_request: Annotated[Union[str, None], Head
     return  templates.TemplateResponse("index.html", {"request": request}) #JSONResponse(content=jsonable_encoder(board))
 
 
-
 @app.get("/setship/{coord_x}/{coord_y}/{player}", response_class=HTMLResponse)
 async def setship(coord_x: int, coord_y: int, player:int, request: Request, hx_request: Annotated[Union[str, None], Header()] = None):
     # print(coord_x, coord_y)
 
     current_cell = (player, coord_x, coord_y)
-    previous_cell = log.pop() if log else None
+    previous_cell = log[player].pop() if log[player] else None
 
     if previous_cell is not None:
       m.addShip(current_cell, previous_cell)
     else:
-        log.append(current_cell)
+        log[player].append(current_cell)
 
     # if board.move(previous_cell, current_cell):
     #     cells_to_move = []
@@ -67,6 +63,6 @@ async def setship(coord_x: int, coord_y: int, player:int, request: Request, hx_r
     #     )
     return  templates.TemplateResponse("setTable.html", {"request": request, "player": player, "mode": 0})
 
-@app.get("/setShips", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("setShips.html", {"request": request, "message": "side: Player 1", "player": 0})
+@app.get("/setShips/{player}/", response_class=HTMLResponse)
+async def read_root(player:int, request: Request):
+    return templates.TemplateResponse("setShips.html", {"request": request, "message": "Режим расстановки кораблей", "player": player})
