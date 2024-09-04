@@ -13,16 +13,33 @@
 </div>
 
 <div id="setTable" style="clear: both;" class="tables">
-{% with mode = 1, player=player %}
-{% include 'setTable.html' %}
-{% endwith %}
+    {% with mode = 1, player=player %}
+    {% include 'setTable.html' %}
+    {% endwith %}
 </div>
-  
+
+<div id="rules-ships"  class="rules">
+<h1>Правила расстановки кораблей!</h1>
+<h2>
+    Для расстановки корабля один раз нажмите на ячейку где должен начинаться корабль и один раз на ячейку где он должен завершаться. 
+    <br />Можно расположить:<br/>
+    <ul>
+        <li>1 четырёхпалубный корабль (длина 4)</li>
+        <li>2 трёхпалубных корабля (длина 3)</li>
+        <li>3 двухпалубных корабля (длина 2)</li>
+        <li>4 однопалубных корабля (длина 1)</li>
+    </ul>
+    Сбросить расстановку кораблей можно с помощью кнопки "Сбросить корабли" <br/> <br>
+    После расстановки кораблей нажмите кнопку: "Нажимая эту кнопку я подтверждаю свою готовность к бою!"
+
+</h2>
+</div>
+
+{%if player_status(player) < 1-%}
 <div style="clear: both; padding: 30px;">
     <button hx-post="/resetShips/{{player}}/" hx-swap="innerHTML" hx-trigger="click", hx-target="#setTable" onClick="window.location.reload();"> Сбросить корабли </button>
 </div> 
 
-{%if player_status(player) < 1-%}
 <div style="clear: both; padding-left: 30px;">
     <button hx-post="/ready_to_game/{{player}}" hx-swap="OuterHTML" hx-trigger="click"  onClick="window.location.reload();"" > Нажимая эту кнопку я подтверждаю свою готовность к бою! </button>
 </div> 

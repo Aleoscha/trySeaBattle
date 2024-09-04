@@ -105,6 +105,10 @@ table {
    left: 0;
    right: 0;
    background: rgb(255, 255, 255);
+   color:black;
+   text-align: center; 
+   vertical-align: middle;
+   font-size: 100%;
    /* background-image: url('images/water1.png'); */
    /* background-size: contain; */
    font:bold;
@@ -117,6 +121,14 @@ div .tables1 {
   /* margin-right: 20px; */
   border-block: 4px;
   border-color: black
+}
+
+.rules {
+  width: 47%;
+
+  padding:30px;
+  float: left;
+  background-color: rgba(0, 0, 0, 0.384);
 }
 
 

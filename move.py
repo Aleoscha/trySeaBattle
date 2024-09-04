@@ -15,7 +15,7 @@ class move():
                 self.con.write_move(player, X, Y, 1)
                 if self._are_ya_winning_son(player):
                     self.con.next_game_status(player)
-                    print(player, 'Победил')
+                    print(player, 'win!')
 
             else:
                 self.con.write_move(player, X, Y, 0)
@@ -42,13 +42,13 @@ class move():
             if axes == 0:
                 if x == X and Y in range(y, y + ship_len):
                     if game_mode and self._is_sunk(ship, X, Y):
-                        print('Пошел ко дну')
+                        print('poshel ko dnu')
 
                     return 1
             else:
                 if y == Y and X in range(x, x + ship_len):
                     if game_mode and self._is_sunk(ship, X, Y):
-                        print('Пошел ко дну')
+                        print('poshel ko dnu')
 
                     return 1
         return 0
@@ -94,8 +94,6 @@ class move():
             print(ship[0], s_c[0], s_c[1], 0)
         return 0
     
-
-
     def _are_ya_winning_son(self, player):
         if self.con.get_shots_on_target(player)[0] < 20:
             return False
@@ -103,9 +101,6 @@ class move():
             print('You are winning')
             return True
 
-
-
-    
     def newgame(self):
         self.con.clear_moves()
         return 0
@@ -123,7 +118,7 @@ class move():
         if not self._is_ships_near(coords[0][0], coords[0][1], coords[0][2], axis, ship_len) and self._is_correct_len(coords[0][0], ship_len):
             self.con.add_ship(coords[0][0], coords[0][1], coords[0][2], axis, ship_len)
         else:
-            print('Невозможно добавить корабль!')
+            print("Can't add ship")
         # print(coords[0], axis, ship_len)
 
         return 0
@@ -156,9 +151,23 @@ class move():
         else:
             # print(ship_len, ship_lens, example_lens)
             return True
+        
+    def change_status_to_game(self, player):
+        if len(self.con.get_ships(player)) == 10 and self.con.get_game_status_by_player(player) < 1:
+            self.con.next_game_status(player)
+        return 0
 
+    def get_moves(self):
+        raw_moves = self.con.get_moves()
+        str_moves = []
+        for mov in raw_moves:
+            str_moves.append(f"Игрок {mov[0]} атаковал {mov[1]}x{mov[2]}. Результат: {'Мимо'if mov[3] == 0 else 'Попал!'}")
+        return str_moves
+        
 
 m = move()
+
+# print(m.check_count_ships(1))
 # m._is_ships_near(0, 3, 8 , 0, 1)
 # m._is_correct_len(0, 1)
 # m._is_sunk((1, 1, 1, 1, 1), 1, 1)

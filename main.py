@@ -19,6 +19,7 @@ templates.env.globals["is_ship"] = m._isShip
 templates.env.globals["game_status"] = db.get_game_status
 templates.env.globals["player_status"] = db.get_game_status_by_player
 templates.env.globals["get_turn"] = db.get_game_turn
+templates.env.globals["moves"] = m.get_moves
 
 
 
@@ -71,7 +72,8 @@ async def setship(coord_x: int, coord_y: int, player:int, request: Request, hx_r
 
 @app.post("/ready_to_game/{player}", response_class=HTMLResponse)
 async def read_root(player:int, request: Request):
-    db.next_game_status(player)
+    m.change_status_to_game(player)
+    # db.next_game_status(player)
     return HTMLResponse("<button > В бой! </button>")
     return templates.TemplateResponse("setTable.html", {"request": request, "player": player, "mode": 0})
 

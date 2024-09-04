@@ -28,6 +28,13 @@
     <button hx-get="/newgame" hx-swap="outerHTML" hx-trigger="click" HX-Refresh="true", hx-target="#wartable" onClick="window.location.reload();"> Начать всё заново </button>
 </div> 
 
+<div style="padding-left: 30px;"class="history">
+    <h1>История сражения!</h1>
+    {% for mov in moves() %}
+        <a> {{mov}} <br /> </a>
+    {% endfor %}
+</div>
+
 <script type="text/javascript">
     setTimeout(function () { 
       location.reload();
