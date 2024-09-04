@@ -1,5 +1,4 @@
 <div class="seatable">
-    <h1>режим {{mode}}, игрок {{player}}</h1>
 <table>
     {% for jnd in range(0, 11) -%}
         <tr>
@@ -11,7 +10,7 @@
             {% elif is_ship(player, ind, jnd) %}
             <td><div class="ship"> </div></td>
             {% else %}
-            <td hx-get="/setship/{{ind}}/{{jnd}}/{{player}}" hx-swap="innerHTML" hx-trigger="click", hx-target="#setTable"><div class="empty"> </div></td>
+            <td hx-get="/setship/{{ind}}/{{jnd}}/{{player}}" hx-swap="OuterHTML" hx-trigger="click", hx-target="#setTable"><div class="empty"> </div></td>
             {% endif %}
             
         {% endfor -%}

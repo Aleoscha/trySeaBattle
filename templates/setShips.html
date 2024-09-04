@@ -1,18 +1,38 @@
+{% with player=player, page='setShips'%}
 {% include 'header.html' %}
+{% endwith %}
 
-<h1>World of warship ⚓</h1>
-<h1>{{ message }}</h1>
+<div style="padding-left: 30px; float: left">
+    <h1>World of warship ⚓</h1>
+    <h1>{{ message }}</h1>
+</div>
 
+<div style="float:right; padding-right: 30px;">
+    <h1> Сторона игрока: {{player}}</h1>
+    <h1> Ход игрока: {{get_turn()}}</h1>
+</div>
 
-<div id="setTable" class="tables">
+<div id="setTable" style="clear: both;" class="tables">
 {% with mode = 1, player=player %}
 {% include 'setTable.html' %}
 {% endwith %}
 </div>
   
-<div style="clear: both;">
-    <button hx-get="/newgame" hx-swap="innerHTML" hx-trigger="click", hx-target="#wartable"> Начать всё заново </button>
+<div style="clear: both; padding: 30px;">
+    <button hx-post="/resetShips/{{player}}/" hx-swap="innerHTML" hx-trigger="click", hx-target="#setTable" onClick="window.location.reload();"> Сбросить корабли </button>
 </div> 
+
+{%if player_status(player) < 1-%}
+<div style="clear: both; padding-left: 30px;">
+    <button hx-post="/ready_to_game/{{player}}" hx-swap="OuterHTML" hx-trigger="click"  onClick="window.location.reload();"" > Нажимая эту кнопку я подтверждаю свою готовность к бою! </button>
+</div> 
+{%endif%}
+
+<script type="text/javascript">
+    setTimeout(function () { 
+      location.reload();
+    }, 60 * 100);
+</script>
 
 </body>
 </html>

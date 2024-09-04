@@ -1,0 +1,22 @@
+{% with player=player, page='startpage'%}
+{% include 'header.html' %}
+{% endwith %}
+
+<div style="padding-left: 30px; float: left">
+    <h1>World of warship ⚓</h1>
+    <h1>{{ message }}</h1>
+</div>
+
+
+
+
+<div style="clear: both; padding: 30px">
+    <button onclick="window.location.href='/setShips/0/'">Играть за игрока 0</button>
+</div> 
+
+<div style="clear: both; padding: 30px">
+    <button onclick="window.location.href='/setShips/1/'">Играть за игрока 1</button>
+</div> 
+
+</body>
+</html>

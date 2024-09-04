@@ -1,0 +1,22 @@
+{% with player=player, page='endgame'%}
+{% include 'header.html' %}
+{% endwith %}
+
+{% if player_status(1) == 2%}
+<h1> Победа игрока 1 </h1>
+{% elif player_status(0) == 2%}
+<h1> Победа игрока 0 </h1>
+{% endif %}
+
+<div style="clear: both; padding: 30px">
+    <button hx-get="/newgame" hx-swap="outerHTML" hx-trigger="click" HX-Refresh="true" onClick="window.location.reload();"> Начать всё заново </button>
+</div> 
+
+<script type="text/javascript">
+    setTimeout(function () { 
+      location.reload();
+    }, 60 * 100);
+</script>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 from typing import Annotated, Union
 from fastapi import FastAPI, Header, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -13,13 +13,18 @@ templates = Jinja2Templates(directory="templates")
 
 db = DB()
 m = move()
+
 templates.env.globals["cell_status"] = db.get_cell_status
 templates.env.globals["is_ship"] = m._isShip
+templates.env.globals["game_status"] = db.get_game_status
+templates.env.globals["player_status"] = db.get_game_status_by_player
+templates.env.globals["get_turn"] = db.get_game_turn
+
 
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "message": "side: Player 1", "player": 0})
+    return templates.TemplateResponse("startpage.html", {"request": request, "message": "side: Player 1", "player": 0})
 
 @app.get("/game/{player}/", response_class=HTMLResponse)
 async def read_root(player: int, request: Request):
@@ -35,6 +40,7 @@ async def index(coord_x: int, coord_y: int, player:int, request: Request, hx_req
 @app.get("/newgame", response_class=HTMLResponse)
 async def newgame(request: Request, hx_request: Annotated[Union[str, None], Header()] = None):
     m.newgame()
+    db.reset_game_status()
 
     return  templates.TemplateResponse("index.html", {"request": request}) #JSONResponse(content=jsonable_encoder(board))
 
@@ -63,6 +69,21 @@ async def setship(coord_x: int, coord_y: int, player:int, request: Request, hx_r
     #     )
     return  templates.TemplateResponse("setTable.html", {"request": request, "player": player, "mode": 0})
 
+@app.post("/ready_to_game/{player}", response_class=HTMLResponse)
+async def read_root(player:int, request: Request):
+    db.next_game_status(player)
+    return HTMLResponse("<button > В бой! </button>")
+    return templates.TemplateResponse("setTable.html", {"request": request, "player": player, "mode": 0})
+
 @app.get("/setShips/{player}/", response_class=HTMLResponse)
 async def read_root(player:int, request: Request):
     return templates.TemplateResponse("setShips.html", {"request": request, "message": "Режим расстановки кораблей", "player": player})
+
+@app.post("/resetShips/{player}/", response_class=HTMLResponse)
+async def read_root(player:int, request: Request):
+    db.reset_ships(player)
+    return templates.TemplateResponse("setTable.html", {"request": request, "message": "Режим расстановки кораблей", "player": player})
+
+@app.get("/endgame/{player}/", response_class=HTMLResponse)
+async def read_root(player:int, request: Request):
+    return templates.TemplateResponse("winner.html", {"request": request,  "player": player})

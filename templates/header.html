@@ -2,10 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+
+{% if game_status() == 0 and (page == "game" or page == 'endgame') %}
+<meta http-equiv="refresh" content="0;URL=/setShips/{{player}}/" />
+{% elif game_status() == 1 and (page == 'setShips' or page == 'endgame') %}
+<meta http-equiv="refresh" content="0;URL=/game/{{player}}/" />
+{% elif game_status() == 2 and (page == 'game' or page == 'setShips') %}
+<meta http-equiv="refresh" content="0;URL=/endgame/{{player}}" />
+
+{% endif %}
+
+
 <title> World of warship ⚓</title>
 <!-- <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css"> -->
 <link rel="stylesheet" href="/static/style.css">
 <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/htmx.org/dist/ext/sse.js"></script>
 
 </head>
 <body>

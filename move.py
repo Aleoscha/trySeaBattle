@@ -13,7 +13,9 @@ class move():
         if self.con.get_game_turn() == player:
             if self._isShip((player + 1) % 2, X, Y, game_mode=True):
                 self.con.write_move(player, X, Y, 1)
-                self._are_ya_winning_son(player)
+                if self._are_ya_winning_son(player):
+                    self.con.next_game_status(player)
+                    print(player, 'Победил')
 
             else:
                 self.con.write_move(player, X, Y, 0)

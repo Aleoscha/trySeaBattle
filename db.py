@@ -123,12 +123,12 @@ class DB:
         con.close()
         return 0
     
-    def clear_ships(self):
+    def reset_ships(self, player):
         '''
         Удаляет корабли
         '''
         con = sqlite3.connect(self.connection_string)
-        cur = con.execute("DELETE FROM ships")
+        cur = con.execute("DELETE FROM ships WHERE player = ?", (player,))
         con.commit()
         # print(res)
         con.close()
@@ -137,26 +137,59 @@ class DB:
     def get_game_status(self):
         '''
         Получает значение статуса игры (стадии)
+        - 0 : Расстановка кораблей
+        - 1 : Игра
+        - 2 : Победа
         '''
         con = sqlite3.connect(self.connection_string)
-        cur = con.execute("SELECT stage FROM game")
-        # cur = con.execute("SELECT game_status_0 * game_status_1 FROM games")
+        # cur = con.execute("SELECT stage FROM game")
+        cur = con.execute("SELECT game_status_0 * game_status_1 FROM games")
         cur = cur.fetchone()[0]
         # print(cur)
         con.close()
         return cur
     
-    def next_game_status(self):
+    def get_game_status_by_player(self, player):
+        '''
+        Получает значение статуса игры для игрока:
+        - 0 : Расстановка кораблей
+        - 1 : Готов к игре / Игра
+        - 2 : Победа
+        '''
+        con = sqlite3.connect(self.connection_string)
+        # cur = con.execute("SELECT stage FROM game")
+        if player:
+            cur = con.execute("SELECT game_status_1 FROM games")
+        else:
+            cur = con.execute("SELECT game_status_0 FROM games")
+        cur = cur.fetchone()[0]
+        # print(cur)
+        con.close()
+        return cur
+    
+    def next_game_status(self, player):
         '''
         Изменяет значение статуса игры (стадии)
         '''
         con = sqlite3.connect(self.connection_string)
         current_status = self.get_game_status()
         if current_status < 3:
-            cur = con.execute("UPDATE game SET stage = ? WHERE gameid = 1", (current_status + 1,))  
+            if player:
+                cur = con.execute("UPDATE games SET game_status_1 = ? WHERE game_id = 1", (current_status + 1,))  
+            else:
+                cur = con.execute("UPDATE games SET game_status_0 = ? WHERE game_id = 1", (current_status + 1,))  
             con.commit()
         con.close()
         return 0
+    
+    def reset_game_status(self):
+        con = sqlite3.connect(self.connection_string)
+        cur = con.execute("UPDATE games SET game_status_1 = 0 WHERE game_id = 1") 
+        cur = con.execute("UPDATE games SET game_status_0 = 0 WHERE game_id = 1")  
+        con.commit()
+        con.close()
+        return 0
+
     
 
     def get_game_turn(self):
@@ -164,7 +197,7 @@ class DB:
         Получает значение очереди игрока
         '''
         con = sqlite3.connect(self.connection_string)
-        cur = con.execute("SELECT turn FROM game WHERE gameid = 1")
+        cur = con.execute("SELECT turn FROM games WHERE game_id = 1")
         cur = cur.fetchone()[0]
         print(cur)
         con.close()
@@ -176,7 +209,7 @@ class DB:
         '''
         con = sqlite3.connect(self.connection_string)
         current_turn = self.get_game_turn()
-        cur = con.execute("UPDATE game SET turn = ? WHERE gameid = 1", ((current_turn + 1) % 2,))  
+        cur = con.execute("UPDATE games SET turn = ? WHERE game_id = 1", ((current_turn + 1) % 2,))  
         con.commit()
         con.close()
         return 0
@@ -200,7 +233,14 @@ class DB:
 
 
 db = DB(connection_string=connection_string)
-# print(db.get_shots_on_target(1)[0])
+print(db.get_game_status())
+# db.reset_game_status()
+print(db.get_game_status_by_player(0))
+# print(db.get_game_turn())
+
+# print(db.next_game_status(1))
+
+# print(db.get_shots_on_target(1)[0])d
 # db.get_ship_lens(0)
 # print(db.get_cell_status(0, 3, 9))
 # db.get_game_turn()

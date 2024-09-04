@@ -1,11 +1,18 @@
+{% with player=player, page='game'%}
 {% include 'header.html' %}
+{% endwith %}
 
-<div style="padding-left: 30px">
-<h1>World of warship ⚓</h1>
-<h1>{{ message }}</h1>
+<div style="padding-left: 30px; float: left">
+    <h1>World of warship ⚓</h1>
+    <h1>{{ message }}</h1>
 </div>
 
-<div id="selftable" class="tables">
+<div style="float:right; padding-right: 30px;">
+    <h1> Сторона игрока: {{player}}</h1>
+    <h1> Ход игрока: {{get_turn()}}</h1>
+</div>
+
+<div id="selftable" class="tables" style="clear: both;" >
 {% with mode = 1, player=player %}
 {% include 'table.html' %}
 {% endwith %}
@@ -16,10 +23,16 @@
 {% include 'table.html' %}
 {% endwith %}
 </div>
-  
-<div style="clear: both;">
-    <button hx-get="/newgame" hx-swap="innerHTML" hx-trigger="click", hx-target="#wartable"> Начать всё заново </button>
+
+<div style="clear: both; padding: 30px">
+    <button hx-get="/newgame" hx-swap="outerHTML" hx-trigger="click" HX-Refresh="true", hx-target="#wartable" onClick="window.location.reload();"> Начать всё заново </button>
 </div> 
+
+<script type="text/javascript">
+    setTimeout(function () { 
+      location.reload();
+    }, 60 * 100);
+</script>
 
 </body>
 </html>

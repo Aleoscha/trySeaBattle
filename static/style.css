@@ -1,16 +1,20 @@
 @font-face {
-   font-family: 'retroboy'; /*a name to be used later*/
-   src: url('/static/fonts/super-legend-boy.otf'); /*URL to font*/
+   font-family: 'epsans'; /*a name to be used later*/
+   src: url('/static/fonts/EpilepsySansBold.ttf'); /*URL to font*/
 }
 
 body {
    /* background-color: #3e94ec; */
    /* background-image: url('images/vawe.gif'); */
+
    background-size:contain;
-   font-family:  "Roboto", helvetica, arial, sans-serif;
+   font-family:  'epsans', "Roboto", helvetica, arial, sans-serif;
    font-size: 16px;
+   color: white;
    font-weight: 400;
    text-rendering: optimizeLegibility;
+   background-image: url('images/5301164944340934501.jpg');
+   background-size: cover;
    
  }
 
@@ -34,6 +38,9 @@ table {
    font: gold;
    background-color: black;
    padding:10px;
+   background-image: url('images/water_bg.jpg');
+   background-size: cover;
+   
    
  }
 
@@ -41,7 +48,11 @@ table {
    width: 8%;
    position: relative;
    border: 3px;
-   
+   text-align: center; 
+   vertical-align: middle;
+   font-size: 200%;
+   border: 1px solid whitesmoke;
+ 
  }
  td .empty {
    position: absolute;
@@ -49,7 +60,10 @@ table {
    bottom: 0;
    left: 0;
    right: 0;
-   background: rgb(196, 196, 196);
+
+   
+   
+
    /* background-image: url('images/water1.png'); */
    /* background-size: contain; */
  }
@@ -60,7 +74,6 @@ table {
    bottom: 0;
    left: 0;
    right: 0;
-   background: rgb(255, 177, 177);
    background-image: url('images/miss.png');
    background-size: contain;
  }
@@ -71,7 +84,6 @@ table {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgb(255, 177, 177);
   background-image: url('images/ship.png');
   background-size: contain;
 }
@@ -82,8 +94,7 @@ table {
    bottom: 0;
    left: 0;
    right: 0;
-   background: rgb(255, 177, 177);
-   background-image: url('images/ontarget.png');
+   background-image: url('images/fire.gif');
    background-size: contain;
  }
 
@@ -107,3 +118,37 @@ div .tables1 {
   border-block: 4px;
   border-color: black
 }
+
+
+/* 
+
+daemon on;
+worker_processes 2;
+user www-data;
+
+events {
+	use epoll;
+	worker_connections 1024;
+}
+
+error_log /var/log/nginx/error.log;
+
+http {
+	server_tokens off;
+	include mime.types;
+	charset utf-8;
+
+	access_log logs/access.log combined;
+
+    	server {
+		listen 80;
+		server_name www.vds2621830.my-ihor.ru vds2621830.my-ihor.ru;
+
+		location / {
+			proxy_pass http://127.0.0.1:8000;
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		}
+	}
+} */
